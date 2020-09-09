@@ -8,8 +8,8 @@ files=`ls`
 
 for i in $files; do
 
-   sudo mv $i $BUILD_NUMBER-$files
-   sudo mv /home/cmteam/jenkins/html/*.html /home/cmteam/jenkins/reports
+   mv $i $BUILD_NUMBER-$files
+   mv /home/cmteam/jenkins/html/*.html /home/cmteam/jenkins/reports
 done
 
 #/bin/bash
@@ -17,5 +17,5 @@ done
 file=`ls -t1 /home/cmteam/jenkins/reports | tail -n +2`
 
 for i  in  $file; do
-   sudo rm -rf /home/cmteam/jenkins/reports/$i
+   rm -rf /home/cmteam/jenkins/reports/$i
 done
