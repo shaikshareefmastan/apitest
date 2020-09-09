@@ -10,7 +10,7 @@ pipeline {
             git 'https://github.com/shaikshareefmastan/apitest.git'
          }
        }
-      	stage('kubectl commands') {
+      stage('kubectl commands') {
          steps {
              script{
 	            sh "kubectl cp collection.json api-pod:/etc/newman -n systemteam"
@@ -19,6 +19,7 @@ pipeline {
 		    sh "kubectl exec api-pod -n systemteam -- rm -rf /etc/newman/collection.json"
 		    echo "\033[32m USE BELOW LINK FOR OUTPUT REPORT \033[0m"
                     echo "\033[43m http://10.60.27.74/collection.html \033[0m"
+		      }
 
                     }
                 }
@@ -37,7 +38,5 @@ pipeline {
                        ]
 	        }
 	    }
-	 
-	 }
     }
 }
