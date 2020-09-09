@@ -2,20 +2,20 @@
 
 #/bin/bash
 
-cd /var/lib/jenkins/workspace/html/newman
+cd /home/cmteam/jenkins/html
 
 files=`ls`
 
 for i in $files; do
 
    sudo mv $i $BUILD_NUMBER-$files
-   sudo mv /var/lib/jenkins/workspace/html/newman/*.html /var/lib/jenkins/workspace/html/reports
+   sudo mv /home/cmteam/jenkins/html/*.html /home/cmteam/jenkins/reports
 done
 
 #/bin/bash
 
-file=`ls -t1 /var/lib/jenkins/workspace/html/reports | tail -n +7`
+file=`ls -t1 /home/cmteam/jenkins/reports | tail -n +2`
 
 for i  in  $file; do
-   sudo rm -rf /var/lib/jenkins/workspace/html/reports/$i
+   sudo rm -rf /home/cmteam/jenkins/reports/$i
 done
