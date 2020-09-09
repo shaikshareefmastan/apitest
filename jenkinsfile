@@ -16,7 +16,7 @@ pipeline {
 	            sh "kubectl cp collection.json api-pod:/etc/newman -n systemteam"
                     sh "kubectl exec api-pod -n systemteam -- newman run collection.json -r cli,htmlextra --reporter-htmlextra-export /var/www/html/collection.html"
 		    sh "kubectl cp api-pod:/var/www/html/collection.html /home/cmteam/jenkins/html/collection.html -n systemteam"
-		    sh "kubectl exec api-pod -n systemteam -- rm -rf /etc/newman/collection.json
+		    sh "kubectl exec api-pod -n systemteam -- rm -rf /etc/newman/collection.json"
 		    echo "\033[32m USE BELOW LINK FOR OUTPUT REPORT \033[0m"
                     echo "\033[43m http://10.60.27.74/collection.html \033[0m"
 
