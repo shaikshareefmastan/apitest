@@ -4,8 +4,8 @@ pipeline {
       stage('kubectl commands') {
          steps {
              script{
-                 echo ${params.select}
-                 cat test.yml
+                 sh "echo ${params.select}"
+                 "sh cat test.yml"
 		        }
 
               }
