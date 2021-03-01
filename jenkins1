@@ -8,6 +8,8 @@ pipeline {
                 sh("echo ${select}")
               } else {
                sh ("cat test.yml")
+	       for (i in ${test}) {
+                echo i
               }
 		        }
 
