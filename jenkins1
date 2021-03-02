@@ -15,22 +15,22 @@ pipeline {
                      }
          steps {
              script{
-	          if (params.setnewbuildversion) {
+	          if (params.deploy == 'deploynewbuildversion') {
 			    sh ("oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}")   
             }
-			if (params.deployconfigmap) {
+			if (params.deploymentfiles == 'deployconfigmap') {
 			    sh (echo "oc apply -f configmap.yaml -n ${DEPLOYNAMESPACE}")   
             }
-			if (params.deploysecret) {
+			if (params.deploymentfiles == deploysecret) {
 			    sh (echo "oc apply -f secret.yaml -n ${DEPLOYNAMESPACE}")   
             }
-			if (params.deployroute) {
+			if (params.deploymentfiles == deployroute) {
 			    sh (echo "oc apply -f route.yaml -n ${DEPLOYNAMESPACE}")   
             }
-			if (params.deploydc.yml) {
+			if (params.deploymentfiles == deploydc.yml) {
 			    sh (echo "oc apply -f deploymentconfig.yaml -n ${DEPLOYNAMESPACE}")   
             }
-			if (params.deployservice) {
+			if (params.deploymentfiles == deployservice) {
 			    sh (echo "oc apply -f service.yaml -n ${DEPLOYNAMESPACE}")   
             }
 
@@ -43,22 +43,22 @@ pipeline {
                      }
          steps {
              script{
-	          if (params.setnewbuildversion) {
+	          if (params.deploy == 'deploynewbuildversion') {
 			    sh ("oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE_E2E}")   
             }
-			if (params.deployconfigmap) {
+			if (params.deploymentfiles == 'deployconfigmap') {
 			    sh (echo "oc apply -f configmap.yaml -n ${DEPLOYNAMESPACE_E2E}")   
             }
-			if (params.deploysecret) {
+			if (params.deploymentfiles == 'deploysecret') {
 			    sh (echo "oc apply -f secret.yaml -n ${DEPLOYNAMESPACE_E2E}")   
             }
-			if (params.deployroute) {
+			if (params.deploymentfiles == 'deployroute') {
 			    sh (echo "oc apply -f route.yaml -n ${DEPLOYNAMESPACE_E2E}")   
             }
-			if (params.deploydc.yml) {
+			if (params.deploymentfiles == 'deploydc.yml') {
 			    sh (echo "oc apply -f deploymentconfig.yaml -n ${DEPLOYNAMESPACE_E2E}")   
             }
-			if (params.deployservice) {
+			if (params.deploymentfiles == 'deployservice') {
 			    sh (echo "oc apply -f service.yaml -n ${DEPLOYNAMESPACE_E2E}")   
             }
 
