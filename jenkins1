@@ -6,12 +6,7 @@ pipeline {
              script{
 	          if (params.deploy) {
                 sh("echo ${select}")
-              } else {
-               sh ("cat test.yml")
-	       for (i in ${test}) {
-                echo i
               }
-		        }
 
               }
             }    
