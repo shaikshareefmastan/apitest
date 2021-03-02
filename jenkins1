@@ -19,7 +19,7 @@ pipeline {
 	          if (params.deploy == 'deploynewbuildversion') {
 			    echo "oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}"  
             }
-			if ( [params.deploymentfiles].contains('deployconfigmap') ) {
+			if ( [params.deploymentfiles].contains('deployconfigmap') == 'true' ) {
 			    echo "oc apply -f configmap.yaml -n ${DEPLOYNAMESPACE}"  
             }
 			if (params.deploymentfiles == 'deploysecret') {
