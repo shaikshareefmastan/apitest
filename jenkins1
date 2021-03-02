@@ -16,7 +16,7 @@ pipeline {
          steps {
              script{
 	          echo "${deploymentfiles}"
-	          if (params.deploy == 'deploynewbuildversion') {
+	          if (params.deploynewbuildversion) {
 			    echo "oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}"  
             }
 			if ( [params.deploymentfiles].contains('deployconfigmap') == 'true' ) {
