@@ -1,12 +1,58 @@
 pipeline {
    agent any
    stages {
-      stage('kubectl commands') {
+      stage('deploy sit') {
+             when {
+                         expression { params.environment == 'SIT' }
+                     }
          steps {
              script{
-	          if (params.deploy) {
-                sh("echo ${select}")
+	          if (params.setnewbuildversion) {
+			    sh ("oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}")   
+            }
+			if (params.deployconfigmap) {
+			    sh (echo "oc apply -f configmap.yaml -n ${DEPLOYNAMESPACE}")   
+            }
+			if (params.deploysecret) {
+			    sh (echo "oc apply -f secret.yaml -n ${DEPLOYNAMESPACE}")   
+            }
+			if (params.deployroute) {
+			    sh (echo "oc apply -f route.yaml -n ${DEPLOYNAMESPACE}")   
+            }
+			if (params.deploydc.yml) {
+			    sh (echo "oc apply -f deploymentconfig.yaml -n ${DEPLOYNAMESPACE}")   
+            }
+			if (params.deployservice) {
+			    sh (echo "oc apply -f service.yaml -n ${DEPLOYNAMESPACE}")   
+            }
+
               }
+            }    
+        }
+	stage('deploy e2e') {
+             when {
+                         expression { params.environment == 'e2e' }
+                     }
+         steps {
+             script{
+	          if (params.setnewbuildversion) {
+			    sh ("oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}")   
+            }
+			if (params.deployconfigmap) {
+			    sh (echo "oc apply -f configmap.yaml -n ${DEPLOYNAMESPACE}")   
+            }
+			if (params.deploysecret) {
+			    sh (echo "oc apply -f secret.yaml -n ${DEPLOYNAMESPACE}")   
+            }
+			if (params.deployroute) {
+			    sh (echo "oc apply -f route.yaml -n ${DEPLOYNAMESPACE}")   
+            }
+			if (params.deploydc.yml) {
+			    sh (echo "oc apply -f deploymentconfig.yaml -n ${DEPLOYNAMESPACE}")   
+            }
+			if (params.deployservice) {
+			    sh (echo "oc apply -f service.yaml -n ${DEPLOYNAMESPACE}")   
+            }
 
               }
             }    
