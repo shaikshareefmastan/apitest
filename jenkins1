@@ -1,3 +1,11 @@
+def DOCKER_TARGET_IMAGE_REGISTRY    = "cccportal-docker-release.artifactory.dhl.com"
+def BEIMAGE                         = "${DOCKER_TARGET_IMAGE_REGISTRY}"
+def IMAGEPATH                       = "ccp-be"
+def OPENSHIFT_HOST                  = "https://prod1-ocp.prg-dc.dhl.com"
+def OPENSHIFT_HOST_cbj              = "https://prod2-ocp.kul-dc.dhl.com"
+def SERVICE_NAME                    = "cccp-be"
+def DEPLOYNAMESPACE                 = "its-ccp-dmz-sit"
+def DEPLOYNAMESPACE_E2E             = "exp-gccp-dmz-e2e"
 pipeline {
    agent any
    stages {
@@ -36,22 +44,22 @@ pipeline {
          steps {
              script{
 	          if (params.setnewbuildversion) {
-			    sh ("oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}")   
+			    sh ("oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE_E2E}")   
             }
 			if (params.deployconfigmap) {
-			    sh (echo "oc apply -f configmap.yaml -n ${DEPLOYNAMESPACE}")   
+			    sh (echo "oc apply -f configmap.yaml -n ${DEPLOYNAMESPACE_E2E}")   
             }
 			if (params.deploysecret) {
-			    sh (echo "oc apply -f secret.yaml -n ${DEPLOYNAMESPACE}")   
+			    sh (echo "oc apply -f secret.yaml -n ${DEPLOYNAMESPACE_E2E}")   
             }
 			if (params.deployroute) {
-			    sh (echo "oc apply -f route.yaml -n ${DEPLOYNAMESPACE}")   
+			    sh (echo "oc apply -f route.yaml -n ${DEPLOYNAMESPACE_E2E}")   
             }
 			if (params.deploydc.yml) {
-			    sh (echo "oc apply -f deploymentconfig.yaml -n ${DEPLOYNAMESPACE}")   
+			    sh (echo "oc apply -f deploymentconfig.yaml -n ${DEPLOYNAMESPACE_E2E}")   
             }
 			if (params.deployservice) {
-			    sh (echo "oc apply -f service.yaml -n ${DEPLOYNAMESPACE}")   
+			    sh (echo "oc apply -f service.yaml -n ${DEPLOYNAMESPACE_E2E}")   
             }
 
               }
