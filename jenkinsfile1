@@ -4,7 +4,9 @@ pipeline {
         stage('Example') {
 		  steps {
 		     script {
-		     sh "versionupdate.sh"
+		     pwd
+		     ls -la
+		     sh versionupdate.sh
 			 MAJORVERSION = readFile(file: 'MAJORVERSION').trim()
         MINORVERSION = readFile(file: 'MINORVERSION').trim()
         OLDREVISION = readFile(file: 'REVISION').trim()
