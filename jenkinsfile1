@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+    stages {
+        stage('Example') {
+		  steps {
+		     script {
+			 MAJORVERSION = readFile(file: 'MAJORVERSION').trim()
+        MINORVERSION = readFile(file: 'MINORVERSION').trim()
+        OLDREVISION = readFile(file: 'REVISION').trim()
+        REVISION = (OLDREVISION.toInteger() + 1).toString()
+        writeFile file: 'REVISION', text: "${REVISION}"
+        VERSIONNUM = "v${MAJORVERSION}.${MINORVERSION}.${REVISION}"
+
+        currentBuild.displayName    = "${VERSIONNUM}"
+		echo "${VERSIONNUM}"
+               
+		   }
+		  }
+        }
+    }
+}
