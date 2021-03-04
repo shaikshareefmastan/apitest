@@ -18,9 +18,10 @@ pipeline {
              script{
 	          echo "${deploymentfiles}"
 		  echo "${files}"
-		  for(x in env.files){
-                         echo "env.x"
-                         }
+		  def log = ${files}
+		   if (log.contains('deployconfigmap')) {
+                             println "oc apply -f configmap.yaml -n ${DEPLOYNAMESPACE}"
+                       }
 	          if (params.deploy == 'deploynewbuildversion') {
 			    echo "oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}"  
             }
