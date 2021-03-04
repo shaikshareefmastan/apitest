@@ -18,7 +18,7 @@ pipeline {
              script{
 	          echo "${deploymentfiles}"
 		  echo "${files}"
-		  for(x in ${files}){
+		  for(x in env.files){
                          echo "x"
                          }
 	          if (params.deploy == 'deploynewbuildversion') {
