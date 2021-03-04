@@ -19,7 +19,7 @@ pipeline {
 	          echo "${deploymentfiles}"
 		  echo "${files}"
 		  for(x in ${file}){
-                         println x 
+                         echo "${x}"
                          }
 	          if (params.deploy == 'deploynewbuildversion') {
 			    echo "oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}"  
