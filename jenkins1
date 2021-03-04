@@ -6,7 +6,7 @@ def OPENSHIFT_HOST_cbj              = "https://prod2-ocp.kul-dc.dhl.com"
 def SERVICE_NAME                    = "cccp-be"
 def DEPLOYNAMESPACE                 = "its-ccp-dmz-sit"
 def DEPLOYNAMESPACE_E2E             = "exp-gccp-dmz-e2e"
-def files                           = [${deploymentfiles}]
+def files                           = ${deploymentfiles}
 pipeline {
    agent any
    stages {
