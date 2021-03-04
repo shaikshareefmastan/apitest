@@ -18,7 +18,7 @@ pipeline {
              script{
 	          echo "${deploymentfiles}"
 		  echo "${files}"
-		  def log = ${files}
+		  def log = env.files
 		   if (log.contains('deployconfigmap')) {
                              println "oc apply -f configmap.yaml -n ${DEPLOYNAMESPACE}"
                        }
