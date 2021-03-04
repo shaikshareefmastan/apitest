@@ -17,9 +17,10 @@ pipeline {
          steps {
              script{
 	          echo "${deploymentfiles}"
-		  var = "${files}"
-		  def log = env.var
-		   if (log.contains('deployconfigmap')) {
+		  touch file
+		  cat ${files} >> file
+		  def lines = new File('file').readLines()
+		   if (lines.findAll { it.contains('deployconfigmap') }) {
                              println "oc apply -f configmap.yaml -n ${DEPLOYNAMESPACE}"
                        }
 	          if (params.deploy == 'deploynewbuildversion') {
