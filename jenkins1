@@ -17,9 +17,7 @@ pipeline {
          steps {
              script{
 	          echo "${deploymentfiles}"
-		  for (location in ${files} ){
-		          echo "oc apply -f $location -n ${DEPLOYNAMESPACE}"
-		  } 
+		  echo "${files}"
 	          if (params.deploy == 'deploynewbuildversion') {
 			    echo "oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}"  
             }
