@@ -19,6 +19,8 @@ pipeline {
 	          echo "${deploymentfiles}"
 		  touch file
 		  cat ${files} >> file
+		  pwd
+		  cat file
 		  def lines = new File('file').readLines()
 		   if (lines.findAll { it.contains('deployconfigmap') }) {
                              println "oc apply -f configmap.yaml -n ${DEPLOYNAMESPACE}"
