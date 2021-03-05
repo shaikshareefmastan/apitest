@@ -19,3 +19,5 @@ file=`ls -t1 /home/cmteam/jenkins/reports | tail -n +2`
 for i  in  $file; do
    rm -rf /home/cmteam/jenkins/reports/$i
 done
+
+#new
