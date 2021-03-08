@@ -16,36 +16,15 @@ pipeline {
                      }
          steps {
              script{
-	          echo "${deploymentfiles}"
-		  
+	     if (params.deploy == 'deploynewbuildversion') {
+			    echo "oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}"  
+            }
+	    if (params.deploy == 'deploydc') {
 		  for (int i = 0; i < list.size(); i++){
 		  def item = list[i]
 		      echo " oc apply -f ${item}  -n ${DEPLOYNAMESPACE}"
-                  if ( "${item}" == 'deployconfigmap') {
-		     echo "oc apply -f configmap.yaml -n ${DEPLOYNAMESPACE}"  
-                      }
-	          if ( "${item}" == 'deploysecret') {
-                    echo "oc apply -f secret.yaml -n ${DEPLOYNAMESPACE}"  
-                      }
 	   }
-	          if (params.deploy == 'deploynewbuildversion') {
-			    echo "oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}"  
-            }
-			if ( params.deploymentfiles == 'deployconfigmap') {
-			    echo "oc apply -f configmap.yaml -n ${DEPLOYNAMESPACE}"  
-            }
-			if (params.deploymentfiles == 'deploysecret') {
-			    echo "oc apply -f secret.yaml -n ${DEPLOYNAMESPACE}"  
-            }
-			if (params.deploymentfiles == 'deployroute') {
-			    echo "oc apply -f route.yaml -n ${DEPLOYNAMESPACE}"  
-            }
-			if (params.deploymentfiles == 'deploydc.yml') {
-			    echo "oc apply -f deploymentconfig.yaml -n ${DEPLOYNAMESPACE}"  
-            }
-			if (params.deploymentfiles == 'deployservice') {
-			    echo "oc apply -f service.yaml -n ${DEPLOYNAMESPACE}"  
-            }
+	       }   
 
               }
             }    
@@ -59,21 +38,12 @@ pipeline {
 	          if (params.deploy == 'deploynewbuildversion') {
 			    echo "oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE_E2E}"  
             }
-			if (params.deploymentfiles == 'deployconfigmap') {
-			    echo "oc apply -f configmap.yaml -n ${DEPLOYNAMESPACE_E2E}"   
-            }
-			if (params.deploymentfiles == 'deploysecret') {
-			    echo "oc apply -f secret.yaml -n ${DEPLOYNAMESPACE_E2E}"   
-            }
-			if (params.deploymentfiles == 'deployroute') {
-			    echo "oc apply -f route.yaml -n ${DEPLOYNAMESPACE_E2E}"  
-            }
-			if (params.deploymentfiles == 'deploydc.yml') {
-			    echo "oc apply -f deploymentconfig.yaml -n ${DEPLOYNAMESPACE_E2E}"  
-            }
-			if (params.deploymentfiles == 'deployservice') {
-			    echo "oc apply -f service.yaml -n ${DEPLOYNAMESPACE_E2E}"   
-            }
+	    if (params.deploy == 'deploydc') {
+		  for (int i = 0; i < list.size(); i++){
+		  def item = list[i]
+		      echo " oc apply -f ${item}  -n ${DEPLOYNAMESPACE}"
+	   }
+	       }  
 
               }
             }    
