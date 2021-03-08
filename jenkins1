@@ -43,33 +43,11 @@ pipeline {
 		  def item = list[i]
 		    sh 'sleep 15'
 		      echo " oc apply -f ${item}  -n ${DEPLOYNAMESPACE}"
-	   }
-	       }  
+	                }
+	            }  
 
               }
-	  stage('deploy e2e-cbj') {
-             when {
-                         expression { params.environment == 'e2e-cbj' }
-                     }
-         steps {
-             script{
-	          if (params.deploy == 'deploynewbuildversion') {
-			    echo "oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE_E2E}"  
-            }
-	    if (params.deploy == 'deploydc') {
-		  for (int i = 0; i < list.size(); i++){
-		  def item = list[i]
-		    sh 'sleep 15'
-		      echo " oc apply -f ${item}  -n ${DEPLOYNAMESPACE}"
-	   }
-	       }  
-
-              }
-            }    
-        }
+          }
+       }
     }
-  }
-  }
-  }
- 
-
+}
