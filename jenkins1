@@ -7,6 +7,7 @@ def SERVICE_NAME                    = "cccp-be"
 def DEPLOYNAMESPACE                 = "its-ccp-dmz-sit"
 def DEPLOYNAMESPACE_E2E             = "exp-gccp-dmz-e2e"
 def files                           = [env.deploymentfiles]
+def list                 = "${files}".split(',')
 pipeline {
    agent any
    stages {
@@ -17,14 +18,16 @@ pipeline {
          steps {
              script{
 	          echo "${deploymentfiles}"
-		  touch file
-		  cat ${files} >> file
-		  pwd
-		  cat file
-		  def lines = new File('file').readLines()
-		   if (lines.findAll { it.contains('deployconfigmap') }) {
-                             println "oc apply -f configmap.yaml -n ${DEPLOYNAMESPACE}"
-                       }
+		  
+		  for (int i = 0; i < list.size(); i++){
+		  def item = list[i]
+		        if ( ${item} == 'deployconfigmap') {
+			    echo "oc apply -f configmap.yaml -n ${DEPLOYNAMESPACE}"  
+            }
+	    if ( ${item} == 'deploysecret') {
+			    echo "oc apply -f secret.yaml -n ${DEPLOYNAMESPACE}"  
+            }
+		}
 	          if (params.deploy == 'deploynewbuildversion') {
 			    echo "oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}"  
             }
