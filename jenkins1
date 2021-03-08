@@ -29,7 +29,7 @@ pipeline {
               }
             }    
         }
-	stage('deploy e2e prg') {
+	stage('deploy e2e-prg') {
              when {
                          expression { params.environment == 'e2e-prg' }
                      }
@@ -47,7 +47,7 @@ pipeline {
 	       }  
 
               }
-	  stage('deploy e2e cbj') {
+	  stage('deploy e2e-cbj') {
              when {
                          expression { params.environment == 'e2e-cbj' }
                      }
@@ -69,5 +69,7 @@ pipeline {
         }
     }
   }
- }
-}
+  }
+  }
+ 
+
