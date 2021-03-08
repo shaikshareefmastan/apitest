@@ -6,7 +6,7 @@ def OPENSHIFT_HOST_cbj              = "https://prod2-ocp.kul-dc.dhl.com"
 def SERVICE_NAME                    = "cccp-be"
 def DEPLOYNAMESPACE                 = "its-ccp-dmz-sit"
 def DEPLOYNAMESPACE_E2E             = "exp-gccp-dmz-e2e"
-def list                            = "${deploymentfiles}".split(',')
+def list                            = "env.deploymentfiles".split(',')
 pipeline {
    agent any
    stages {
@@ -20,7 +20,7 @@ pipeline {
 		  
 		  for (int i = 0; i < list.size(); i++){
 		  def item = list[i]
-		        if ( ${item} == 'deployconfigmap') {
+		        if ( env.item == 'deployconfigmap') {
 			    echo "oc apply -f configmap.yaml -n ${DEPLOYNAMESPACE}"  
             }
 	    if ( ${item} == 'deploysecret') {
