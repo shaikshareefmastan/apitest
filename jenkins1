@@ -1,5 +1,5 @@
 def DOCKER_TARGET_IMAGE_REGISTRY    = "cccportal-docker-release.artifactory.dhl.com"
-def BEIMAGE                         = "${DOCKER_TARGET_IMAGE_REGISTRY}:ccp-be"
+def BEIMAGE                         = "${DOCKER_TARGET_IMAGE_REGISTRY}:${component}"
 def OPENSHIFT_HOST                  = "https://prod1-ocp.prg-dc.dhl.com"
 def OPENSHIFT_HOST_cbj              = "https://prod2-ocp.kul-dc.dhl.com"
 def SERVICE_NAME                    = "cccp-be"
