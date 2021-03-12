@@ -20,7 +20,7 @@ pipeline {
 	         sh "pwd"
 		 sh "ls -la"
 	     if (params.deploy == 'deploynewbuildversion') {
-			    echo "oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}"  
+		echo "oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}"  
             }
 	    if (params.deploy == 'deploydc') {
 		  for (int i = 0; i < list.size(); i++){
@@ -31,8 +31,6 @@ pipeline {
 	                         }  
 	                    }
                       }
-                  }
-            }
 	    if (params.component == 'ccp-fe') {
 	     dir("${component}"){
 	         sh "pwd"
@@ -48,11 +46,10 @@ pipeline {
 	                               }
 	                         }  
 	                    }
-                      }
-                  }
-            }
-	    
-        }
+                    }
+                }  
+	  }
+      }
 	stage('deploy e2e-prg') {
              when {
                          expression { params.environment == 'e2e-prg' }
