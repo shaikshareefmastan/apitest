@@ -2,7 +2,8 @@ def DOCKER_TARGET_IMAGE_REGISTRY    = "cccportal-docker-release.artifactory.dhl.
 def BEIMAGE                         = "${DOCKER_TARGET_IMAGE_REGISTRY}:${component}"
 def OPENSHIFT_HOST                  = "https://prod1-ocp.prg-dc.dhl.com"
 def OPENSHIFT_HOST_cbj              = "https://prod2-ocp.kul-dc.dhl.com"
-def SERVICE_NAME                    = "cccp-be"
+def SERVICE_NAME_BE                 = "cccp-be"
+def SERVICE_NAME_FE                 = "cccp-fe"
 def DEPLOYNAMESPACE                 = "its-ccp-dmz-sit"
 def DEPLOYNAMESPACE_E2E             = "exp-gccp-dmz-e2e"
 def list                            = "${deploymentfiles}".split(',')
@@ -18,8 +19,9 @@ pipeline {
 	     if (params.component == 'ccp-be') {
 	     dir("${component}"){
 	         sh "pwd"
+		 sh "ls -la"
 	     if (params.deploy == 'deploynewbuildversion') {
-			    echo "oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}"  
+		echo "oc set image dc/${SERVICE_NAME_BE} ${SERVICE_NAME_BE}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}"  
             }
 	    if (params.deploy == 'deploydc') {
 		  for (int i = 0; i < list.size(); i++){
@@ -30,13 +32,12 @@ pipeline {
 	                         }  
 	                    }
                       }
-                  }
-            }
 	    if (params.component == 'ccp-fe') {
 	     dir("${component}"){
 	         sh "pwd"
+		 sh "ls -la"
 	     if (params.deploy == 'deploynewbuildversion') {
-			    echo "oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}"  
+			    echo "oc set image dc/${SERVICE_NAME_FE} ${SERVICE_NAME_FE}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}"  
             }
 	    if (params.deploy == 'deploydc') {
 		  for (int i = 0; i < list.size(); i++){
@@ -46,11 +47,10 @@ pipeline {
 	                               }
 	                         }  
 	                    }
-                      }
-                  }
-            }
-	    
-        }
+                    }
+                }  
+	  }
+      }
 	stage('deploy e2e-prg') {
              when {
                          expression { params.environment == 'e2e-prg' }
