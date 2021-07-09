@@ -1,12 +1,13 @@
 pipeline {
    agent any
-      stages{
-          stage("prepaire workspace"){
-              steps{
+     stages {
+          stage ('prepair'){
+              steps {
                   script{
-                      git checkout ${BUILDFROMTAG}
-                      sh "ls -la"
-                      sh "cat test.yml"
+                     sh  "git checkout ${BUILDFROMTAG}"
+                     sh  "ls -la"
+                     sh "cat test.yml"
+                     
                   }
               }
               }
