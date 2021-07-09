@@ -1,4 +1,4 @@
-def FEREPOURL   = env.FEREPOURL
+def FEREPOURL   = "https://github.com/shaikshareefmastan/apitest.git"
 def BUILDFROMTAG = env.BUILDFROMTAG
 def GIT_REFSPEC = "refs/tags/${BUILDFROMTAG}"
 
