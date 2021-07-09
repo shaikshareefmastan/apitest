@@ -44,6 +44,7 @@ node () {
             ])
               sh "echo test"
 			  sh "ls -la"
+			  sh "cat test.yml"
             
 			
         } 
