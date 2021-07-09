@@ -1,7 +1,7 @@
 pipeline {
    agent any
       stages{
-          stage(prepaire workspace){
+          stage("prepaire workspace"){
               steps{
                   script{
                       git checkout ${BUILDFROMTAG}
