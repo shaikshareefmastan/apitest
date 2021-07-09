@@ -1,0 +1,15 @@
+pipeline {
+   agent any
+      stages{
+          stage(prepaire workspace){
+              steps{
+                  script{
+                      git checkout ${BUILDFROMTAG}
+                      sh "ls -la"
+                      sh "cat test.yml"
+                  }
+              }
+              }
+      }
+    
+}
