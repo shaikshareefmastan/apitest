@@ -1,0 +1,51 @@
+def FEREPOURL   = env.FEREPOURL
+def BUILDFROMTAG = env.BUILDFROMTAG
+def GIT_REFSPEC = "refs/tags/${BUILDFROMTAG}"
+
+
+def GIT_CREDS_ID        = "8f5f44ab-665c-469c-86fd-d4e53d65a2a1"
+
+node () {
+
+    stage("Prepare") {
+        currentBuild.description = ""
+        
+    }
+	stage("Prepare workspace FEdev"){
+        dir("FE"){
+            checkout([
+                $class: 'GitSCM',
+                userRemoteConfigs:[
+                    [
+                        url: "${FEREPOURL}",
+                        credentialsId: "${GIT_CREDS_ID}"
+                    ]
+                ],
+                branches:[
+                    [
+                        name: "${GIT_REFSPEC}"
+                    ]
+                ],
+                extensions: [
+                    [
+                        $class: 'CleanBeforeCheckout'
+                    ],
+                    [
+                        $class: 'CloneOption',
+                        timeout: 30,
+                        noTags: false,
+                        honorRefspec: true
+                    ],
+                    [
+                        $class: 'CheckoutOption',
+                        timeout: 30
+                    ]
+                ]
+            ])
+              sh "echo test"
+			  sh "ls -la"
+            
+			
+        } 
+    }
+}
