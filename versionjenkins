@@ -4,13 +4,18 @@ pipeline {
           stage ('prepair'){
               steps {
                   script{
-                     sh  "git checkout ${BUILDFROMTAG}"
-                     sh  "ls -la"
-                     sh "cat test.yml"
-                     
+                     sh  "git checkout ${BUILDFROMTAG}" 
                   }
               }
               }
+            stage ('testcommands'){
+                 steps{
+                   script{
+                      sh  "ls -la"
+                     sh "cat test.yml"
+                   }
+                 }
+            }
       }
     
 }
