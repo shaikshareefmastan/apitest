@@ -12,7 +12,7 @@ pipeline {
                  steps{
                    script{
                       sh  "ls -la"
-                     sh "cat test.yml"
+                     sh "cat REVISION"
                    }
                  }
             }
