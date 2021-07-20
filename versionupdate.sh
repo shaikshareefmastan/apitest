@@ -13,7 +13,8 @@ esac
 echo "Exists tags:"
 git tag -l 'v*'
 
-echo "hi version is v${MAJORVERSION}.${MINORVERSION}.${REVISION}"
+echo "hi hello version is v${MAJORVERSION}.${MINORVERSION}.${REVISION}"
+
 read -p 'Add next version? [Y/N]: ' -i Y ifnextver
 case $ifnextver in
 Y|y) 
