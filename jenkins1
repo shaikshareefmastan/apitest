@@ -1,11 +1,12 @@
-def DOCKER_TARGET_IMAGE_REGISTRY    = "cccportal-docker-release.artifactory.dhl.com"
-def BEIMAGE                         = "${DOCKER_TARGET_IMAGE_REGISTRY}"
-def IMAGEPATH                       = "ccp-be"
-def OPENSHIFT_HOST                  = "https://prod1-ocp.prg-dc.dhl.com"
-def OPENSHIFT_HOST_cbj              = "https://prod2-ocp.kul-dc.dhl.com"
-def SERVICE_NAME                    = "cccp-be"
-def DEPLOYNAMESPACE                 = "its-ccp-dmz-sit"
-def DEPLOYNAMESPACE_E2E             = "exp-gccp-dmz-e2e"
+def DOCKER_TARGET_IMAGE_REGISTRY    = "artifactory-url"
+def BEIMAGE                         = "${DOCKER_TARGET_IMAGE_REGISTRY}:${component}"
+def OPENSHIFT_HOST                  = "openshift-url-1"
+def OPENSHIFT_HOST_cbj              = "openshift-url-2"
+def SERVICE_NAME_BE                 = "cccp-be"
+def SERVICE_NAME_FE                 = "cccp-fe"
+def DEPLOYNAMESPACE                 = "namespace-1"
+def DEPLOYNAMESPACE_E2E             = "namespace-2"
+def list                            = "${deploymentfiles}".split(',')
 pipeline {
    agent any
    stages {
@@ -15,53 +16,77 @@ pipeline {
                      }
          steps {
              script{
-	          echo "${deploymentfiles}"
-	          if (params.deploynewbuildversion) {
-			    echo "oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}"  
+	     if (params.component == 'ccp-be') {
+	     dir("${component}"){
+	         sh "pwd"
+		 sh "ls -la"
+	     if (params.deploy == 'deploynewbuildversion') {
+		echo "oc set image dc/${SERVICE_NAME_BE} ${SERVICE_NAME_BE}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}"  
             }
-			if ( [params.deploymentfiles].contains('deployconfigmap') == 'true' ) {
-			    echo "oc apply -f configmap.yaml -n ${DEPLOYNAMESPACE}"  
+	    if (params.deploy == 'deploydc') {
+		  for (int i = 0; i < list.size(); i++){
+		  def item = list[i]
+		    sh 'sleep 15'
+		      echo " oc apply -f ${item}  -n ${DEPLOYNAMESPACE}"
+	                               }
+	                         }  
+	                    }
+                      }
+	    if (params.component == 'ccp-fe') {
+	     dir("${component}"){
+	         sh "pwd"
+		 sh "ls -la"
+	     if (params.deploy == 'deploynewbuildversion') {
+			    echo "oc set image dc/${SERVICE_NAME_FE} ${SERVICE_NAME_FE}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}"  
             }
-			if (params.deploymentfiles == 'deploysecret') {
-			    echo "oc apply -f secret.yaml -n ${DEPLOYNAMESPACE}"  
-            }
-			if (params.deploymentfiles == 'deployroute') {
-			    echo "oc apply -f route.yaml -n ${DEPLOYNAMESPACE}"  
-            }
-			if (params.deploymentfiles == 'deploydc.yml') {
-			    echo "oc apply -f deploymentconfig.yaml -n ${DEPLOYNAMESPACE}"  
-            }
-			if (params.deploymentfiles == 'deployservice') {
-			    echo "oc apply -f service.yaml -n ${DEPLOYNAMESPACE}"  
-            }
-
-              }
-            }    
-        }
-	stage('deploy e2e') {
+	    if (params.deploy == 'deploydc') {
+		  for (int i = 0; i < list.size(); i++){
+		  def item = list[i]
+		    sh 'sleep 15'
+		      echo " oc apply -f ${item}  -n ${DEPLOYNAMESPACE}"
+	                               }
+	                         }  
+	                    }
+                    }
+                }  
+	  }
+      }
+	stage('deploy e2e-prg') {
              when {
-                         expression { params.environment == 'e2e' }
+                         expression { params.environment == 'e2e-prg' }
                      }
          steps {
              script{
 	          if (params.deploy == 'deploynewbuildversion') {
 			    echo "oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE_E2E}"  
             }
-			if (params.deploymentfiles == 'deployconfigmap') {
-			    echo "oc apply -f configmap.yaml -n ${DEPLOYNAMESPACE_E2E}"   
+	    if (params.deploy == 'deploydc') {
+		  for (int i = 0; i < list.size(); i++){
+		  def item = list[i]
+		    sh 'sleep 15'
+		      echo " oc apply -f ${item}  -n ${DEPLOYNAMESPACE}"
+	                }
+	            }  
+
+              }
+          }
+       }
+       stage('deploy e2e-cbj') {
+             when {
+                         expression { params.environment == 'e2e-cbj' }
+                     }
+         steps {
+             script{
+	     if (params.deploy == 'deploynewbuildversion') {
+			    echo "oc set image dc/${SERVICE_NAME} ${SERVICE_NAME}=${BEIMAGE}:${imagetag} -n ${DEPLOYNAMESPACE}"  
             }
-			if (params.deploymentfiles == 'deploysecret') {
-			    echo "oc apply -f secret.yaml -n ${DEPLOYNAMESPACE_E2E}"   
-            }
-			if (params.deploymentfiles == 'deployroute') {
-			    echo "oc apply -f route.yaml -n ${DEPLOYNAMESPACE_E2E}"  
-            }
-			if (params.deploymentfiles == 'deploydc.yml') {
-			    echo "oc apply -f deploymentconfig.yaml -n ${DEPLOYNAMESPACE_E2E}"  
-            }
-			if (params.deploymentfiles == 'deployservice') {
-			    echo "oc apply -f service.yaml -n ${DEPLOYNAMESPACE_E2E}"   
-            }
+	    if (params.deploy == 'deploydc') {
+		  for (int i = 0; i < list.size(); i++){
+		  def item = list[i]
+		    sh 'sleep 15'
+		      echo " oc apply -f ${item}  -n ${DEPLOYNAMESPACE}"
+	   }
+	       }   
 
               }
             }    

@@ -1,0 +1,21 @@
+pipeline {
+   agent any
+     stages {
+          stage ('prepair'){
+              steps {
+                  script{
+                     sh  "git checkout ${BUILDFROMTAG}" 
+                  }
+              }
+              }
+            stage ('testcommands'){
+                 steps{
+                   script{
+                      sh  "ls -la"
+                     sh "cat test.sh"
+                   }
+                 }
+            }
+      }
+    
+}
