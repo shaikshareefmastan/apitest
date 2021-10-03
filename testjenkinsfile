@@ -50,35 +50,7 @@ pipeline{
                  steps{
 				    script{
            
-            checkout([
-                $class: 'GitSCM',
-                userRemoteConfigs:[
-                    [
-                        url: "https://github.com/shaikshareefmastan/apitest.git",
-                        credentialsId: "8f5f44ab-665c-469c-86fd-d4e53d65a2a1"
-                    ]
-                ],
-                branches:[
-                    [
-                        name: "${branch}"
-                    ]
-                ],
-                extensions: [
-                    [
-                        $class: 'CleanBeforeCheckout'
-                    ],
-                    [
-                        $class: 'CloneOption',
-                        timeout: 30,
-                        noTags: false,
-                        honorRefspec: true
-                    ],
-                    [
-                        $class: 'CheckoutOption',
-                        timeout: 30
-                    ]
-                ]
-            ])
+            
 
                  sh("ls -la")
         
